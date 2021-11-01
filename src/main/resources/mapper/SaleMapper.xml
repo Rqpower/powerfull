@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.market.mapper.SaleMapper">
+    <insert id="insertSale" parameterType="Sale">
+        insert into market.sale ( price, quantity, totalPrice, saleDate, productId)
+        VALUES (
+                   #{price},
+                   #{quantity},
+                   #{totalprice},
+                   #{saledate},
+                   #{productid}
+               )
+    </insert>
+    <select id="selectSale" resultType="Sale">
+        select *,
+               (select productName from market.product p where p.id=s.productId)as name
+         from market.sale s
+          order by
+        <if test="sort==0">
+            saleDate desc
+        </if>
+        <if test="sort==1">
+            totalPrice desc
+        </if>
+    </select>
+</mapper>
